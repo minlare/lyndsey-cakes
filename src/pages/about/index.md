@@ -1,7 +1,7 @@
 ---
 templateKey: about-page
 path: /about
-title: testing
+title: golfygolfy
 ---
 ### Shade-grown coffee
 
