@@ -1,39 +1,39 @@
-import React from 'react'
-import { graphql } from 'gatsby'
-import Img from 'gatsby-image'
-import styled from 'styled-components'
-import { animated, useSpring, config } from 'react-spring'
-import Layout from '../components/layout'
-import GridItem from '../components/grid-item'
-import SEO from '../components/SEO'
-import { ChildImageSharp } from '../types'
+import React from 'react';
+import { graphql } from 'gatsby';
+import Img from 'gatsby-image';
+import styled from 'styled-components';
+import { animated, useSpring, config } from 'react-spring';
+import Layout from '../components/layout';
+import GridItem from '../components/grid-item';
+import SEO from '../components/SEO';
+import { ChildImageSharp } from '../types';
 
 type PageProps = {
   data: {
-    firstProject: {
-      title: string
-      slug: string
-      cover: ChildImageSharp
-    }
-    threeProjects: {
+    firstCake: {
+      title: string;
+      slug: string;
+      cover: ChildImageSharp;
+    };
+    threeCakes: {
       nodes: {
-        title: string
-        slug: string
-        cover: ChildImageSharp
-      }[]
-    }
-    aboutUs: ChildImageSharp
-    instagram: ChildImageSharp
-  }
-}
+        title: string;
+        slug: string;
+        cover: ChildImageSharp;
+      }[];
+    };
+    aboutUs: ChildImageSharp;
+    instagram: ChildImageSharp;
+  };
+};
 
 const Area = styled(animated.div)`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: 35vw 40vw 25vw;
   grid-template-areas:
-    'first-project about-us about-us'
-    'three-projects three-projects three-projects'
+    'first-cake about-us about-us'
+    'three-cakes three-cakes three-cakes'
     'instagram instagram instagram';
 
   @media (max-width: ${(props) => props.theme.breakpoints[3]}) {
@@ -41,9 +41,9 @@ const Area = styled(animated.div)`
     grid-template-rows: 35vw 30vw 30vw 25vw;
 
     grid-template-areas:
-      'first-project first-project about-us about-us'
-      'three-projects three-projects three-projects three-projects'
-      'three-projects three-projects three-projects three-projects'
+      'first-cake first-cake about-us about-us'
+      'three-cakes three-cakes three-cakes three-cakes'
+      'three-cakes three-cakes three-cakes three-cakes'
       'instagram instagram instagram instagram';
   }
 
@@ -52,10 +52,10 @@ const Area = styled(animated.div)`
     grid-template-rows: repeat(5, 38vw);
 
     grid-template-areas:
-      'first-project about-us'
-      'three-projects three-projects'
-      'three-projects three-projects'
-      'three-projects three-projects'
+      'first-cake about-us'
+      'three-cakes three-cakes'
+      'three-cakes three-cakes'
+      'three-cakes three-cakes'
       'instagram instagram';
   }
 
@@ -64,25 +64,25 @@ const Area = styled(animated.div)`
     grid-template-rows: repeat(6, 50vw);
 
     grid-template-areas:
-      'first-project'
+      'first-cake'
       'about-us'
-      'three-projects'
-      'three-projects'
-      'three-projects'
+      'three-cakes'
+      'three-cakes'
+      'three-cakes'
       'instagram';
   }
-`
+`;
 
-const FirstProject = styled(GridItem)`
-  grid-area: first-project;
-`
+const FirstCake = styled(GridItem)`
+  grid-area: first-cake;
+`;
 
 const AboutUs = styled(GridItem)`
   grid-area: about-us;
-`
+`;
 
-const ThreeProjects = styled.div`
-  grid-area: three-projects;
+const ThreeCakes = styled.div`
+  grid-area: three-cakes;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
 
@@ -90,53 +90,62 @@ const ThreeProjects = styled.div`
     grid-template-columns: 1fr;
     grid-template-rows: 1fr 1fr 1fr;
   }
-`
+`;
 
 const Instagram = styled(GridItem)`
   grid-area: instagram;
-`
+`;
 
-const Index: React.FunctionComponent<PageProps> = ({ data: { firstProject, threeProjects, aboutUs, instagram } }) => {
+const Index: React.FunctionComponent<PageProps> = ({
+  data: { firstCake, threeCakes, aboutUs, instagram }
+}) => {
   const pageAnimation = useSpring({
     config: config.slow,
     from: { opacity: 0 },
-    to: { opacity: 1 },
-  })
+    to: { opacity: 1 }
+  });
 
   return (
     <Layout>
       <SEO />
       <Area style={pageAnimation}>
-        <FirstProject to={firstProject.slug} aria-label={`View project "${firstProject.title}"`}>
-          <Img fluid={firstProject.cover.childImageSharp.fluid} />
-          <span>{firstProject.title}</span>
-        </FirstProject>
+        <FirstCake
+          to={firstCake.slug}
+          aria-label={`View cake "${firstCake.title}"`}
+        >
+          <Img fluid={firstCake.cover.childImageSharp.fluid} />
+          <span>{firstCake.title}</span>
+        </FirstCake>
         <AboutUs to="/about" aria-label="Visit my about page">
           <Img fluid={aboutUs.childImageSharp.fluid} />
           <span>About</span>
         </AboutUs>
-        <ThreeProjects>
-          {threeProjects.nodes.map((project) => (
-            <GridItem to={project.slug} key={project.slug} aria-label={`View project "${project.title}"`}>
-              <Img fluid={project.cover.childImageSharp.fluid} />
-              <span>{project.title}</span>
+        <ThreeCakes>
+          {threeCakes.nodes.map((cake) => (
+            <GridItem
+              to={cake.slug}
+              key={cake.slug}
+              aria-label={`View cake "${cake.title}"`}
+            >
+              <Img fluid={cake.cover.childImageSharp.fluid} />
+              <span>{cake.title}</span>
             </GridItem>
           ))}
-        </ThreeProjects>
+        </ThreeCakes>
         <Instagram to="/instagram" aria-label="See my Instagram pictures">
           <Img fluid={instagram.childImageSharp.fluid} />
           <span>Instagram</span>
         </Instagram>
       </Area>
     </Layout>
-  )
-}
+  );
+};
 
-export default Index
+export default Index;
 
 export const query = graphql`
   query Index {
-    firstProject: projectsYaml {
+    firstCake: cakesYaml {
       title
       slug
       cover {
@@ -147,7 +156,7 @@ export const query = graphql`
         }
       }
     }
-    threeProjects: allProjectsYaml(limit: 3, skip: 1) {
+    threeCakes: allCakesYaml(limit: 3, skip: 1) {
       nodes {
         title
         slug
@@ -160,14 +169,20 @@ export const query = graphql`
         }
       }
     }
-    aboutUs: file(sourceInstanceName: { eq: "images" }, name: { eq: "about-us" }) {
+    aboutUs: file(
+      sourceInstanceName: { eq: "images" }
+      name: { eq: "about-us" }
+    ) {
       childImageSharp {
         fluid(quality: 95, maxWidth: 1200) {
           ...GatsbyImageSharpFluid_withWebp
         }
       }
     }
-    instagram: file(sourceInstanceName: { eq: "images" }, name: { eq: "instagram" }) {
+    instagram: file(
+      sourceInstanceName: { eq: "images" }
+      name: { eq: "instagram" }
+    ) {
       childImageSharp {
         fluid(quality: 95, maxWidth: 1920) {
           ...GatsbyImageSharpFluid_withWebp
@@ -175,4 +190,4 @@ export const query = graphql`
       }
     }
   }
-`
+`;

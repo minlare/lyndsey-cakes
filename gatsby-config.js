@@ -1,10 +1,10 @@
 require('dotenv').config({
-  path: `.env`,
-})
+  path: `.env`
+});
 
-const config = require('./config')
+const config = require('./config');
 
-const pathPrefix = config.pathPrefix === '/' ? '' : config.pathPrefix
+const pathPrefix = config.pathPrefix === '/' ? '' : config.pathPrefix;
 
 module.exports = {
   pathPrefix: config.pathPrefix,
@@ -20,7 +20,7 @@ module.exports = {
     ogLanguage: config.ogLanguage,
     author: config.author,
     twitter: config.userTwitter,
-    facebook: config.ogSiteName,
+    facebook: config.ogSiteName
   },
   plugins: [
     'gatsby-plugin-react-helmet',
@@ -30,37 +30,37 @@ module.exports = {
     {
       resolve: 'gatsby-source-filesystem',
       options: {
-        name: 'projects',
-        path: `${__dirname}/content/projects`,
-      },
+        name: 'cakes',
+        path: `${__dirname}/content/cakes`
+      }
     },
     {
       resolve: 'gatsby-source-filesystem',
       options: {
         name: 'tests',
-        path: `${__dirname}/content/pages`,
-      },
+        path: `${__dirname}/content/pages`
+      }
     },
     {
       resolve: 'gatsby-source-filesystem',
       options: {
         name: 'config',
-        path: `${__dirname}/config`,
-      },
+        path: `${__dirname}/config`
+      }
     },
     {
       resolve: 'gatsby-source-filesystem',
       options: {
         name: 'images',
-        path: `${__dirname}/src/images`,
-      },
+        path: `${__dirname}/src/images`
+      }
     },
     {
       resolve: 'gatsby-source-instagram',
       options: {
         access_token: process.env.ACCESS_TOKEN,
-        instagram_id: process.env.BUSINESS_ID,
-      },
+        instagram_id: process.env.BUSINESS_ID
+      }
     },
     // {
     //   resolve: 'gatsby-plugin-google-analytics',
@@ -77,8 +77,8 @@ module.exports = {
           {
             resolve: 'gatsby-remark-relative-images',
             options: {
-              name: 'uploads',
-            },
+              name: 'uploads'
+            }
           },
           {
             resolve: 'gatsby-remark-images',
@@ -86,23 +86,23 @@ module.exports = {
               // It's important to specify the maxWidth (in pixels) of
               // the content container as this plugin uses this as the
               // base for generating different widths of each image.
-              maxWidth: 2048,
-            },
+              maxWidth: 2048
+            }
           },
           {
             resolve: 'gatsby-remark-copy-linked-files',
             options: {
-              destinationDir: 'static',
-            },
-          },
-        ],
-      },
+              destinationDir: 'static'
+            }
+          }
+        ]
+      }
     },
     {
       resolve: 'gatsby-plugin-netlify-cms',
       options: {
-        modulePath: `${__dirname}/src/cms/cms.js`,
-      },
+        modulePath: `${__dirname}/src/cms/cms.js`
+      }
     },
     'gatsby-plugin-sitemap',
     {
@@ -115,10 +115,10 @@ module.exports = {
         background_color: config.backgroundColor,
         theme_color: config.themeColor,
         display: 'standalone',
-        icon: 'src/favicon.png',
-      },
+        icon: 'src/favicon.png'
+      }
     },
     'gatsby-plugin-offline',
-    'gatsby-plugin-netlify',
-  ],
-}
+    'gatsby-plugin-netlify'
+  ]
+};

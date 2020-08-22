@@ -9,6 +9,7 @@ type PageProps = {
   data: {
     about: {
       title: string;
+      metaDescription: string;
       body: string;
     };
   };
@@ -23,10 +24,7 @@ const About: React.FunctionComponent<PageProps> = ({ data: { about } }) => {
 
   return (
     <Layout>
-      <SEO
-        title="About | Jodie"
-        desc="Hi. I'm LekoArts! You can visit my website or my other Gatsby projects."
-      />
+      <SEO title={about.title} desc={about.metaDescription} />
       <AnimatedBox
         style={pageAnimation}
         py={[6, 6, 6, 8]}
@@ -34,10 +32,6 @@ const About: React.FunctionComponent<PageProps> = ({ data: { about } }) => {
       >
         <h1>{about.title}</h1>
         <p>{about.body}</p>
-        <p>
-          <a href="https://www.lekoarts.de">Website</a> -{' '}
-          <a href="https://themes.lekoarts.de">More projects</a>
-        </p>
       </AnimatedBox>
     </Layout>
   );
@@ -48,8 +42,8 @@ export default About;
 export const aboutPageQuery = graphql`
   query About {
     about: aboutYaml {
-      id
       title
+      metaDescription
       body
     }
   }

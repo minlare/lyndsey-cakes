@@ -1,21 +1,21 @@
 // graphql function doesn't throw an error so we have to check to check for the result.errors to throw manually
-const wrapper = promise =>
-  promise.then(result => {
+const wrapper = (promise) =>
+  promise.then((result) => {
     if (result.errors) {
-      throw result.errors
+      throw result.errors;
     }
-    return result
-  })
+    return result;
+  });
 
 exports.createPages = async ({ graphql, actions }) => {
-  const { createPage } = actions
+  const { createPage } = actions;
 
-  const projectTemplate = require.resolve('./src/templates/project.tsx')
+  const cakeTemplate = require.resolve('./src/templates/cake.tsx');
 
   const result = await wrapper(
     graphql(`
       {
-        projects: allProjectsYaml {
+        cakes: allCakesYaml {
           nodes {
             slug
             images
@@ -23,17 +23,16 @@ exports.createPages = async ({ graphql, actions }) => {
         }
       }
     `)
-  )
+  );
 
-  result.data.projects.nodes.forEach(node => {
-    console.log('node', node);
+  result.data.cakes.nodes.forEach((node) => {
     createPage({
       path: node.slug,
-      component: projectTemplate,
+      component: cakeTemplate,
       context: {
         slug: node.slug,
-        images: `/${node.images}/`,
-      },
-    })
-  })
-}
+        images: `/${node.images}/`
+      }
+    });
+  });
+};

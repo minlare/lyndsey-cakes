@@ -4,39 +4,41 @@
 
 describe('navigation', () => {
   beforeEach(() => {
-    cy.visit('/')
-  })
+    cy.visit('/');
+  });
 
-  it('link to projects works', () => {
+  it('link to cakes works', () => {
     cy.get('nav').within(() => {
-      cy.findByText(/projects/i)
-        .click({ force: true })
-        .waitForRouteChange()
-    })
-    cy.findByLabelText(/view project "Color"/i).assertRoute('/projects')
-  })
+      cy.findByText(/cakes/i).click({ force: true }).waitForRouteChange();
+    });
+    cy.findByLabelText(/view cake "Color"/i).assertRoute('/cakes');
+  });
   it('link to instagram works', () => {
     cy.get('nav').within(() => {
       cy.findByText(/instagram/i)
         .click({ force: true })
-        .waitForRouteChange()
-    })
-    cy.assertRoute('/instagram')
-  })
+        .waitForRouteChange();
+    });
+    cy.assertRoute('/instagram');
+  });
   it('link to about works', () => {
     cy.get('nav').within(() => {
-      cy.findByText(/about/i).click({ force: true }).waitForRouteChange()
-    })
-    cy.findByText(/You can visit my website or my other Gatsby projects:/i).assertRoute('/about')
-  })
+      cy.findByText(/about/i).click({ force: true }).waitForRouteChange();
+    });
+    cy.findByText(
+      /You can visit my website or my other Gatsby projects:/i
+    ).assertRoute('/about');
+  });
   it('link to home works', () => {
     cy.get('nav').within(() => {
-      cy.findByText(/about/i).click({ force: true }).waitForRouteChange()
-    })
-    cy.findByText(/You can visit my website or my other Gatsby projects:/i).assertRoute('/about')
+      cy.findByText(/about/i).click({ force: true }).waitForRouteChange();
+    });
+    cy.findByText(
+      /You can visit my website or my other Gatsby projects:/i
+    ).assertRoute('/about');
     cy.findByLabelText(/LekoArts, Back to home/i)
       .click({ force: true })
       .waitForRouteChange()
-      .assertRoute('/')
-  })
-})
+      .assertRoute('/');
+  });
+});
