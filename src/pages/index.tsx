@@ -13,13 +13,13 @@ type PageProps = {
     firstCake: {
       title: string;
       slug: string;
-      cover: ChildImageSharp;
+      featuredimage: ChildImageSharp;
     };
     threeCakes: {
       nodes: {
         title: string;
         slug: string;
-        cover: ChildImageSharp;
+        featuredimage: ChildImageSharp;
       }[];
     };
     aboutUs: ChildImageSharp;
@@ -105,6 +105,10 @@ const Index: React.FunctionComponent<PageProps> = ({
     to: { opacity: 1 }
   });
 
+  // TODO: Get a better graphql query
+  firstCake = firstCake.edges[0].node.frontmatter;
+  console.log(threeCakes);
+
   return (
     <Layout>
       <SEO />
@@ -113,7 +117,7 @@ const Index: React.FunctionComponent<PageProps> = ({
           to={firstCake.slug}
           aria-label={`View cake "${firstCake.title}"`}
         >
-          <Img fluid={firstCake.cover.childImageSharp.fluid} />
+          <Img fluid={firstCake.featuredimage.childImageSharp.fluid} />
           <span>{firstCake.title}</span>
         </FirstCake>
         <AboutUs to="/about" aria-label="Visit my about page">
@@ -127,7 +131,7 @@ const Index: React.FunctionComponent<PageProps> = ({
               key={cake.slug}
               aria-label={`View cake "${cake.title}"`}
             >
-              <Img fluid={cake.cover.childImageSharp.fluid} />
+              <Img fluid={cake.featuredimage.childImageSharp.fluid} />
               <span>{cake.title}</span>
             </GridItem>
           ))}
@@ -145,26 +149,34 @@ export default Index;
 
 export const query = graphql`
   query Index {
-    firstCake: cakesYaml {
-      title
-      slug
-      cover {
-        childImageSharp {
-          fluid(quality: 95, maxWidth: 1200) {
-            ...GatsbyImageSharpFluid_withWebp
+    firstCake: allMarkdownRemark(limit: 1) {
+      edges {
+        node {
+          frontmatter {
+            featuredimage {
+              childImageSharp {
+                fluid(quality: 95, maxWidth: 1200) {
+                  ...GatsbyImageSharpFluid_withWebp
+                }
+              }
+            }
+            title
           }
         }
       }
     }
-    threeCakes: allCakesYaml(limit: 3, skip: 1) {
-      nodes {
-        title
-        slug
-        cover {
-          childImageSharp {
-            fluid(quality: 95, maxWidth: 1200) {
-              ...GatsbyImageSharpFluid_withWebp
+    threeCakes: allMarkdownRemark(limit: 3, skip: 1) {
+      edges {
+        node {
+          frontmatter {
+            featuredimage {
+              childImageSharp {
+                fluid(quality: 95, maxWidth: 1200) {
+                  ...GatsbyImageSharpFluid_withWebp
+                }
+              }
             }
+            title
           }
         }
       }
@@ -191,3 +203,52 @@ export const query = graphql`
     }
   }
 `;
+
+// export const query = graphql`
+//   query Index {
+//     firstCake: cakesYaml {
+//       title
+//       slug
+//       featuredimage {
+//         childImageSharp {
+//           fluid(quality: 95, maxWidth: 1200) {
+//             ...GatsbyImageSharpFluid_withWebp
+//           }
+//         }
+//       }
+//     }
+//     threeCakes: allCakesYaml(limit: 3, skip: 1) {
+//       nodes {
+//         title
+//         slug
+//         featuredimage {
+//           childImageSharp {
+//             fluid(quality: 95, maxWidth: 1200) {
+//               ...GatsbyImageSharpFluid_withWebp
+//             }
+//           }
+//         }
+//       }
+//     }
+//     aboutUs: file(
+//       sourceInstanceName: { eq: "images" }
+//       name: { eq: "about-us" }
+//     ) {
+//       childImageSharp {
+//         fluid(quality: 95, maxWidth: 1200) {
+//           ...GatsbyImageSharpFluid_withWebp
+//         }
+//       }
+//     }
+//     instagram: file(
+//       sourceInstanceName: { eq: "images" }
+//       name: { eq: "instagram" }
+//     ) {
+//       childImageSharp {
+//         fluid(quality: 95, maxWidth: 1920) {
+//           ...GatsbyImageSharpFluid_withWebp
+//         }
+//       }
+//     }
+//   }
+// `;

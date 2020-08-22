@@ -14,7 +14,7 @@ type PageProps = {
       nodes: {
         title: string;
         slug: string;
-        cover: ChildImageSharp;
+        featuredimage: ChildImageSharp;
       }[];
     };
   };
@@ -48,7 +48,7 @@ const Cakes: React.FunctionComponent<PageProps> = ({ data: { cakes } }) => {
             to={cake.slug}
             aria-label={`View cake "${cake.title}"`}
           >
-            <Img fluid={cake.cover.childImageSharp.fluid} />
+            <Img fluid={cake.featuredimage.childImageSharp.fluid} />
             <span>{cake.title}</span>
           </GridItem>
         ))}
@@ -59,20 +59,20 @@ const Cakes: React.FunctionComponent<PageProps> = ({ data: { cakes } }) => {
 
 export default Cakes;
 
-export const query = graphql`
-  query Cakes {
-    cakes: allCakesYaml {
-      nodes {
-        title
-        slug
-        cover {
-          childImageSharp {
-            fluid(quality: 95, maxWidth: 1200) {
-              ...GatsbyImageSharpFluid_withWebp
-            }
-          }
-        }
-      }
-    }
-  }
-`;
+// export const query = graphql`
+//   query Cakes {
+//     cakes: allCakesYaml {
+//       nodes {
+//         title
+//         slug
+//         featuredimage {
+//           childImageSharp {
+//             fluid(quality: 95, maxWidth: 1200) {
+//               ...GatsbyImageSharpFluid_withWebp
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+// `;

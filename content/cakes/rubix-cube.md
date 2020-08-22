@@ -1,7 +1,7 @@
 ---
 templateKey: blog-post
 title: Rubix Cube
-featuredimage: /img/rubix.jpg
+featuredimage: ../../static/img/rubix.jpg
 price: 200
 images:
   - /img/rubix-2.jpg

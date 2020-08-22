@@ -57,7 +57,7 @@ type PageProps = {
         modifiedTime: string;
         birthTime: string;
       };
-      cover: {
+      featuredimage: {
         childImageSharp: {
           resize: {
             src: string;
@@ -120,7 +120,7 @@ const Cake: React.FunctionComponent<PageProps> = ({
         title={`${cake.title_detail} | Jodie`}
         desc={cake.desc}
         node={cake.parent}
-        banner={cake.cover.childImageSharp.resize.src}
+        banner={cake.featuredimage.childImageSharp.resize.src}
         individual
       />
       <PBox py={10} px={[6, 6, 8, 10]}>
@@ -153,40 +153,40 @@ const Cake: React.FunctionComponent<PageProps> = ({
 
 export default Cake;
 
-export const query = graphql`
-  query CakeTemplate($slug: String!, $images: String!) {
-    cake: cakesYaml(slug: { eq: $slug }) {
-      title_detail
-      color
-      category
-      desc
-      slug
-      parent {
-        ... on File {
-          modifiedTime
-          birthTime
-        }
-      }
-      cover {
-        childImageSharp {
-          resize(width: 1200, height: 675, quality: 80) {
-            src
-          }
-        }
-      }
-    }
-    images: allFile(
-      filter: { relativePath: { regex: $images } }
-      sort: { fields: name, order: ASC }
-    ) {
-      nodes {
-        name
-        childImageSharp {
-          fluid(quality: 95, maxWidth: 1200) {
-            ...GatsbyImageSharpFluid_withWebp
-          }
-        }
-      }
-    }
-  }
-`;
+// export const query = graphql`
+//   query CakeTemplate($slug: String!, $images: String!) {
+//     cake: cakesYaml(slug: { eq: $slug }) {
+//       title_detail
+//       color
+//       category
+//       desc
+//       slug
+//       parent {
+//         ... on File {
+//           modifiedTime
+//           birthTime
+//         }
+//       }
+//       featuredimage {
+//         childImageSharp {
+//           resize(width: 1200, height: 675, quality: 80) {
+//             src
+//           }
+//         }
+//       }
+//     }
+//     images: allFile(
+//       filter: { relativePath: { regex: $images } }
+//       sort: { fields: name, order: ASC }
+//     ) {
+//       nodes {
+//         name
+//         childImageSharp {
+//           fluid(quality: 95, maxWidth: 1200) {
+//             ...GatsbyImageSharpFluid_withWebp
+//           }
+//         }
+//       }
+//     }
+//   }
+// `;
