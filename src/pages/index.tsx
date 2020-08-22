@@ -114,7 +114,8 @@ const Index: React.FunctionComponent<PageProps> = ({
       <SEO />
       <Area style={pageAnimation}>
         <FirstCake
-          to={firstCake.slug}
+          to="#"
+          // to={firstCake.slug}
           aria-label={`View cake "${firstCake.title}"`}
         >
           <Img fluid={firstCake.featuredimage.childImageSharp.fluid} />
@@ -125,16 +126,22 @@ const Index: React.FunctionComponent<PageProps> = ({
           <span>About</span>
         </AboutUs>
         <ThreeCakes>
-          {threeCakes.nodes.map((cake) => (
-            <GridItem
-              to={cake.slug}
-              key={cake.slug}
-              aria-label={`View cake "${cake.title}"`}
-            >
-              <Img fluid={cake.featuredimage.childImageSharp.fluid} />
-              <span>{cake.title}</span>
-            </GridItem>
-          ))}
+          {threeCakes.edges.map((node, nodeIndex) => {
+            const cake = node.node.frontmatter;
+            console.log(cake);
+            return (
+              <GridItem
+                to="#"
+                key={nodeIndex}
+                // to={cake.slug}
+                // key={cake.slug}
+                aria-label={`View cake "${cake.title}"`}
+              >
+                <Img fluid={cake.featuredimage.childImageSharp.fluid} />
+                <span>{cake.title}</span>
+              </GridItem>
+            );
+          })}
         </ThreeCakes>
         <Instagram to="/instagram" aria-label="See my Instagram pictures">
           <Img fluid={instagram.childImageSharp.fluid} />
