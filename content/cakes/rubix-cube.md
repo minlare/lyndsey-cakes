@@ -1,7 +1,10 @@
 ---
 templateKey: blog-post
+slug: rubix-cube
 title: Rubix Cube
 featuredimage: ../../static/img/rubix.jpg
+desc: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla id nisi
+  lobortis, sagittis ipsum eu, mattis lectus.
 price: 200
 images:
   - /img/rubix-2.jpg
