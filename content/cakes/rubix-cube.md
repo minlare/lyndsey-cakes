@@ -1,5 +1,5 @@
 ---
-templateKey: blog-post
+templateKey: cake-page
 slug: rubix-cube
 title: Rubix Cube
 featuredimage: ../../static/img/rubix.jpg

@@ -1,5 +1,5 @@
 ---
-templateKey: blog-post
+templateKey: cake-page
 slug: fortnite
 title: Fortnite
 featuredimage: ../../static/img/fortnite-3.jpg

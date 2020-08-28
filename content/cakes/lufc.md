@@ -1,5 +1,5 @@
 ---
-templateKey: blog-post
+templateKey: cake-page
 slug: lufc
 title: LUFC
 featuredimage: ../../static/img/lufc.jpg

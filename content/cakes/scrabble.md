@@ -1,5 +1,5 @@
 ---
-templateKey: blog-post
+templateKey: cake-page
 slug: scrabble
 title: Scrabble
 featuredimage: ../../static/img/scrabble-2.jpg
