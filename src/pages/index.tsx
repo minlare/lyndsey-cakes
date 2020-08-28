@@ -105,17 +105,14 @@ const Index: React.FunctionComponent<PageProps> = ({
     to: { opacity: 1 }
   });
 
-  // TODO: Get a better graphql query
-  firstCake = firstCake.edges[0].node.frontmatter;
-  console.log(threeCakes);
+  firstCake = firstCake.nodes[0].frontmatter;
 
   return (
     <Layout>
       <SEO />
       <Area style={pageAnimation}>
         <FirstCake
-          to="#"
-          // to={firstCake.slug}
+          to={firstCake.slug}
           aria-label={`View cake "${firstCake.title}"`}
         >
           <Img fluid={firstCake.featuredimage.childImageSharp.fluid} />
@@ -126,15 +123,12 @@ const Index: React.FunctionComponent<PageProps> = ({
           <span>About</span>
         </AboutUs>
         <ThreeCakes>
-          {threeCakes.edges.map((node, nodeIndex) => {
-            const cake = node.node.frontmatter;
-            console.log(cake);
+          {threeCakes.nodes.map((node) => {
+            const cake = node.frontmatter;
             return (
               <GridItem
-                to="#"
-                key={nodeIndex}
-                // to={cake.slug}
-                // key={cake.slug}
+                to={cake.slug}
+                key={cake.slug}
                 aria-label={`View cake "${cake.title}"`}
               >
                 <Img fluid={cake.featuredimage.childImageSharp.fluid} />
@@ -157,34 +151,32 @@ export default Index;
 export const query = graphql`
   query Index {
     firstCake: allMarkdownRemark(limit: 1) {
-      edges {
-        node {
-          frontmatter {
-            featuredimage {
-              childImageSharp {
-                fluid(quality: 95, maxWidth: 1200) {
-                  ...GatsbyImageSharpFluid_withWebp
-                }
+      nodes {
+        frontmatter {
+          featuredimage {
+            childImageSharp {
+              fluid {
+                ...GatsbyImageSharpFluid_withWebp
               }
             }
-            title
           }
+          title
+          slug
         }
       }
     }
     threeCakes: allMarkdownRemark(limit: 3, skip: 1) {
-      edges {
-        node {
-          frontmatter {
-            featuredimage {
-              childImageSharp {
-                fluid(quality: 95, maxWidth: 1200) {
-                  ...GatsbyImageSharpFluid_withWebp
-                }
+      nodes {
+        frontmatter {
+          featuredimage {
+            childImageSharp {
+              fluid(quality: 95, maxWidth: 1200) {
+                ...GatsbyImageSharpFluid_withWebp
               }
             }
-            title
           }
+          title
+          slug
         }
       }
     }

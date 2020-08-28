@@ -22,6 +22,6 @@ describe('cake', () => {
     cy.findByAltText(/cakes-breakfast-003/i);
   });
   it('should have a contact button', () => {
-    cy.findByText(/contact us/i);
+    cy.findByText(/contact me/i);
   });
 });

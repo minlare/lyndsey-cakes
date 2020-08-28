@@ -1,5 +1,4 @@
 import React from 'react';
-import { graphql } from 'gatsby';
 import Img from 'gatsby-image';
 import { transparentize, readableColor } from 'polished';
 import styled from 'styled-components';
@@ -25,12 +24,6 @@ const Content = styled(Box)<{ bg: string }>`
   }
 `;
 
-const Category = styled(AnimatedBox)`
-  letter-spacing: 0.05em;
-  font-size: ${(props) => props.theme.fontSizes[1]};
-  text-transform: uppercase;
-`;
-
 const Description = styled(animated.div)`
   max-width: 960px;
   letter-spacing: -0.003em;
@@ -40,23 +33,16 @@ const Description = styled(animated.div)`
 `;
 
 const PButton = styled(Button)<{ color: string }>`
-  background: ${(props) => (props.color === 'white' ? 'black' : props.color)};
-  color: ${(props) =>
-    readableColor(props.color === 'white' ? 'black' : props.color)};
+  background: 'white',
+  color: 'black
 `;
 
 type PageProps = {
   data: {
     cake: {
-      title_detail: string;
-      color: string;
-      category: string;
+      title: string;
       desc: string;
       slug: string;
-      parent: {
-        modifiedTime: string;
-        birthTime: string;
-      };
       featuredimage: {
         childImageSharp: {
           resize: {
@@ -85,14 +71,9 @@ type PageProps = {
   };
 };
 
-const Cake: React.FunctionComponent<PageProps> = ({
-  data: { cake, images }
-}) => {
-  const categoryAnimation = useSpring({
-    config: config.slow,
-    from: { opacity: 0, transform: 'translate3d(0, -30px, 0)' },
-    to: { opacity: 1, transform: 'translate3d(0, 0, 0)' }
-  });
+const Cake: React.FunctionComponent<PageProps> = ({ pageContext }) => {
+  console.log(pageContext);
+  const cake = pageContext;
 
   const titleAnimation = useSpring({
     config: config.slow,
@@ -114,37 +95,40 @@ const Cake: React.FunctionComponent<PageProps> = ({
   });
 
   return (
-    <Layout color={cake.color}>
+    <Layout>
       <SEO
         pathname={cake.slug}
-        title={`${cake.title_detail} | Jodie`}
+        title={`${cake.title} | Cakes by Lyndsey Rose`}
         desc={cake.desc}
-        node={cake.parent}
-        banner={cake.featuredimage.childImageSharp.resize.src}
+        banner={cake.featuredimage.childImageSharp.fluid.src}
         individual
       />
       <PBox py={10} px={[6, 6, 8, 10]}>
-        <Category style={categoryAnimation}>{cake.category}</Category>
-        <animated.h1 style={titleAnimation}>{cake.title_detail}</animated.h1>
+        <animated.h1 style={titleAnimation}>{cake.title}</animated.h1>
+        <Img
+          alt={cake.title}
+          key={cake.featuredimage.childImageSharp.fluid.src}
+          fluid={cake.featuredimage.childImageSharp.fluid}
+        />
         <Description style={descAnimation}>
-          <div dangerouslySetInnerHTML={{ __html: cake.desc }} />
+          <div dangerouslySetInnerHTML={{ __html: cake.html }} />
         </Description>
       </PBox>
-      <Content bg={cake.color} py={10}>
+      {/* <Content bg={cake.color} py={10}>
         <PBox style={imagesAnimation} px={[6, 6, 8, 10]}>
           {images.nodes.map((image) => (
             <Img
               alt={image.name}
-              key={image.childImageSharp.fluid.src}
-              fluid={image.childImageSharp.fluid}
+              key={image.childImageSharp.original.src}
+              fluid={image.childImageSharp.original}
             />
           ))}
         </PBox>
-      </Content>
+      </Content> */}
       <PBox style={{ textAlign: 'center' }} py={10} px={[6, 6, 8, 10]}>
-        <h2>Want to start your own cake?</h2>
+        <h2>Want your own cake?</h2>
         <PButton color={cake.color} py={4} px={8}>
-          Contact Us
+          Contact Me
         </PButton>
       </PBox>
     </Layout>
@@ -152,6 +136,28 @@ const Cake: React.FunctionComponent<PageProps> = ({
 };
 
 export default Cake;
+
+// export const query = graphql`
+//   query CakeTemplate($slug: String!) {
+//     cake: markdownRemark(frontmatter: { slug: { eq: $slug } }) {
+//       id
+//       frontmatter {
+//         desc
+//         featuredimage {
+//           childImageSharp {
+//             fluid(quality: 95, maxWidth: 1200) {
+//               ...GatsbyImageSharpFluid_withWebp
+//             }
+//           }
+//         }
+//         images
+//         price
+//         slug
+//         title
+//       }
+//     }
+//   }
+// `;
 
 // export const query = graphql`
 //   query CakeTemplate($slug: String!, $images: String!) {

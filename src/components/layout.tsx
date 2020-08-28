@@ -1,94 +1,10 @@
 import React from 'react';
-import styled, { createGlobalStyle, ThemeProvider } from 'styled-components';
+import styled from 'styled-components';
 import { graphql, Link, useStaticQuery } from 'gatsby';
 import { readableColor } from 'polished';
 import 'typeface-work-sans';
 import { Box, Flex } from '../elements';
-import theme from '../../config/theme';
-import reset from '../styles/reset';
 import Logo from './logo';
-
-const GlobalStyles = createGlobalStyle`
-  *::before,
-  *::after {
-    box-sizing: border-box;
-  }
-  ::selection {
-    color: white;
-    background-color: #f6993f;
-  }
-  html {
-    box-sizing: border-box;
-    border: 0;
-    margin: 0;
-
-    h1, h2, h3, h4, h5, h6 {
-      font-weight: ${theme.fontWeights.bold};
-    }
-
-    h1 {
-      font-size: ${theme.fontSizes[5]};
-    }
-    h2 {
-      font-size: ${theme.fontSizes[4]};
-    }
-    h3 {
-      font-size: ${theme.fontSizes[3]};
-    }
-    h4 {
-      font-size: ${theme.fontSizes[2]};
-    }
-    h5 {
-      font-size: ${theme.fontSizes[1]};
-    }
-    h6 {
-      font-size: ${theme.fontSizes[0]};
-    }
-
-    @media (max-width: 600px) {
-      font-size: 16px;
-
-      h1 {
-        font-size: ${theme.fontSizes[4]};
-      }
-      h2 {
-        font-size: ${theme.fontSizes[3]};
-      }
-      h3 {
-        font-size: ${theme.fontSizes[2]};
-      }
-      h4 {
-        font-size: ${theme.fontSizes[1]};
-      }
-      h5 {
-        font-size: ${theme.fontSizes[0]};
-      }
-      h6 {
-        font-size: ${theme.fontSizes[0]};
-      }
-    }
-  }
-  body {
-    border: 0;
-    margin: 0;
-    padding: 0;
-    color: black;
-    font-family: 'Work Sans', '-apple-system', 'Roboto', 'Helvetica', 'Arial', sans-serif;
-    background: white;
-    font-size: 18px;
-  }
-  a {
-    transition: all 0.3s ease-in-out;
-    color: black;
-    text-decoration: underline;
-    &:hover,
-    &:focus {
-      color: ${theme.colors.primary};
-    }
-  }
-
-  ${reset}
-`;
 
 const isPartiallyActive = ({
   isPartiallyCurrent
@@ -203,42 +119,37 @@ const Layout = ({ children, color }: LayoutProps) => {
   const data: QueryResult = useStaticQuery(query);
 
   return (
-    <ThemeProvider theme={theme}>
-      <>
-        <GlobalStyles />
-        <Wrapper>
-          <SideBarInner bg="#BFD9D7" as="aside" p={[6, 6, 8]}>
-            <Flex
-              flexWrap="nowrap"
-              flexDirection={['row', 'row', 'row', 'column']}
-              alignItems={['center', 'center', 'center', 'flex-start']}
-              justifyContent="space-between"
-            >
-              <Box width={['3rem', '4rem', '5rem', '6rem']}>
-                <Link to="/" aria-label="LekoArts, Back to Home">
-                  <Logo />
-                </Link>
-              </Box>
-              <Nav
-                color={color}
-                mt={[0, 0, 0, 10]}
-                as="nav"
-                flexWrap="nowrap"
-                flexDirection={['row', 'row', 'row', 'column']}
-                alignItems="flex-start"
-              >
-                {data.navigation.nodes.map((item) => (
-                  <PartialNavLink to={item.link} key={item.name}>
-                    {item.name}
-                  </PartialNavLink>
-                ))}
-              </Nav>
-            </Flex>
-          </SideBarInner>
-          <Main>{children}</Main>
-        </Wrapper>
-      </>
-    </ThemeProvider>
+    <Wrapper>
+      <SideBarInner bg="#BFD9D7" as="aside" p={[6, 6, 8]}>
+        <Flex
+          flexWrap="nowrap"
+          flexDirection={['row', 'row', 'row', 'column']}
+          alignItems={['center', 'center', 'center', 'flex-start']}
+          justifyContent="space-between"
+        >
+          <Box width={['3rem', '4rem', '5rem', '6rem']}>
+            <Link to="/" aria-label="LekoArts, Back to Home">
+              <Logo />
+            </Link>
+          </Box>
+          <Nav
+            color={color}
+            mt={[0, 0, 0, 10]}
+            as="nav"
+            flexWrap="nowrap"
+            flexDirection={['row', 'row', 'row', 'column']}
+            alignItems="flex-start"
+          >
+            {data.navigation.nodes.map((item) => (
+              <PartialNavLink to={item.link} key={item.name}>
+                {item.name}
+              </PartialNavLink>
+            ))}
+          </Nav>
+        </Flex>
+      </SideBarInner>
+      <Main>{children}</Main>
+    </Wrapper>
   );
 };
 

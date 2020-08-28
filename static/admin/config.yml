@@ -12,28 +12,39 @@ media_folder: static/img
 public_folder: /img
 
 collections:
-  - name: "pages"
-    label: "Pages"
+  - name: 'pages'
+    label: 'Pages'
     files:
-      - file: "content/pages/about.yml"
-        label: "About"
-        name: "about"
+      - file: 'content/pages/about.yml'
+        label: 'About'
+        name: 'about'
         fields:
-          - {label: "Template Key", name: "templateKey", widget: "hidden", default: "about-page"}
-          - {label: "Title", name: "title", widget: "string"}
-          - {label: "Body", name: "body", widget: "markdown"}
+          - {
+              label: 'Template Key',
+              name: 'templateKey',
+              widget: 'hidden',
+              default: 'about-page',
+            }
+          - { label: 'Title', name: 'title', widget: 'string' }
+          - { label: 'Body', name: 'body', widget: 'markdown' }
 
-  - name: "cakes"
-    label: "Cakes"
-    folder: "content/cakes"
+  - name: 'cakes'
+    label: 'Cakes'
+    folder: 'content/cakes'
     create: true
-    slug: "{{slug}}"
     fields:
-      - {label: "Template Key", name: "templateKey", widget: "hidden", default: "blog-post"}
-      - {label: "Title", name: "title", widget: "string"}
-      - {label: "Featured Image", name: "featuredimage", widget: image}
-      - {label: "Body", name: "body", widget: "markdown"}
-      - {label: "Price", name: "price", widget: "number"}
+      - {
+          label: 'Template Key',
+          name: 'templateKey',
+          widget: 'hidden',
+          default: 'cake-page',
+        }
+      - { label: 'URL', name: 'slug', widget: 'string' }
+      - { label: 'Title', name: 'title', widget: 'string' }
+      - { label: 'Featured Image', name: 'featuredimage', widget: image }
+      - { label: 'Description', name: 'desc', widget: 'string' }
+      - { label: 'Body', name: 'body', widget: 'markdown' }
+      - { label: 'Price', name: 'price', widget: 'number' }
       - label: Images
         name: images
         widget: list

@@ -7,35 +7,56 @@ const wrapper = (promise) =>
     return result;
   });
 
-// exports.createPages = async ({ graphql, actions }) => {
-//   const { createPage } = actions;
+exports.createPages = async ({ graphql, actions }) => {
+  const { createPage } = actions;
 
-//   const cakeTemplate = require.resolve('./src/templates/cake.tsx');
+  const cakeTemplate = require.resolve('./src/templates/cake.tsx');
 
-//   const result = await wrapper(
-//     graphql(`
-//       {
-//         cakes: allCakesYaml {
-//           nodes {
-//             slug
-//             images
-//           }
-//         }
-//       }
-//     `)
-//   );
+  const result = await wrapper(
+    graphql(`
+      {
+        cakes: allMarkdownRemark(
+          filter: { frontmatter: { templateKey: { eq: "cake-page" } } }
+        ) {
+          nodes {
+            html
+            frontmatter {
+              slug
+              title
+              desc
+              images
+              price
+              featuredimage {
+                childImageSharp {
+                  fluid(quality: 95, maxWidth: 1200) {
+                    base64
+                    aspectRatio
+                    src
+                    srcSet
+                    srcWebp
+                    srcSetWebp
+                    sizes
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    `)
+  );
 
-//   result.data.cakes.nodes.forEach((node) => {
-//     createPage({
-//       path: node.slug,
-//       component: cakeTemplate,
-//       context: {
-//         slug: node.slug,
-//         images: `/${node.images}/`
-//       }
-//     });
-//   });
-// };
+  result.data.cakes.nodes.forEach((node) => {
+    createPage({
+      path: node.frontmatter.slug,
+      component: cakeTemplate,
+      context: {
+        html: node.html,
+        ...node.frontmatter
+      }
+    });
+  });
+};
 
 // exports.onCreateNode = ({
 //   node,
