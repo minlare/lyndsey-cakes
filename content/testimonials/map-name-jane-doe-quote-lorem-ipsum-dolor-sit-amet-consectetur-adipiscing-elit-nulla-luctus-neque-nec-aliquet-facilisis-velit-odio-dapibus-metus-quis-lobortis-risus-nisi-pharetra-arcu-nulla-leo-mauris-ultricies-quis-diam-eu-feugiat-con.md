@@ -1,4 +1,5 @@
 ---
+templateKey: testimonial
 name: Jane Doe
 quote: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla luctus,
   neque nec aliquet facilisis, velit odio dapibus metus, quis lobortis risus
