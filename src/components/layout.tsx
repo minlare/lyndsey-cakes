@@ -1,10 +1,12 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 import { graphql, Link, useStaticQuery } from 'gatsby';
 import { readableColor } from 'polished';
 import 'typeface-work-sans';
 import { Box, Flex } from '../elements';
 import Logo from './logo';
+import theme from '../../config/theme';
+import './layout.css';
 
 const isPartiallyActive = ({
   isPartiallyCurrent
@@ -119,37 +121,39 @@ const Layout = ({ children, color }: LayoutProps) => {
   const data: QueryResult = useStaticQuery(query);
 
   return (
-    <Wrapper>
-      <SideBarInner bg="#BFD9D7" as="aside" p={[6, 6, 8]}>
-        <Flex
-          flexWrap="nowrap"
-          flexDirection={['row', 'row', 'row', 'column']}
-          alignItems={['center', 'center', 'center', 'flex-start']}
-          justifyContent="space-between"
-        >
-          <Box width={['3rem', '4rem', '5rem', '6rem']}>
-            <Link to="/" aria-label="LekoArts, Back to Home">
-              <Logo />
-            </Link>
-          </Box>
-          <Nav
-            color={color}
-            mt={[0, 0, 0, 10]}
-            as="nav"
+    <ThemeProvider theme={theme}>
+      <Wrapper>
+        <SideBarInner bg="#BFD9D7" as="aside" p={[6, 6, 8]}>
+          <Flex
             flexWrap="nowrap"
             flexDirection={['row', 'row', 'row', 'column']}
-            alignItems="flex-start"
+            alignItems={['center', 'center', 'center', 'flex-start']}
+            justifyContent="space-between"
           >
-            {data.navigation.nodes.map((item) => (
-              <PartialNavLink to={item.link} key={item.name}>
-                {item.name}
-              </PartialNavLink>
-            ))}
-          </Nav>
-        </Flex>
-      </SideBarInner>
-      <Main>{children}</Main>
-    </Wrapper>
+            <Box width={['3rem', '4rem', '5rem', '6rem']}>
+              <Link to="/" aria-label="LekoArts, Back to Home">
+                <Logo />
+              </Link>
+            </Box>
+            <Nav
+              color={color}
+              mt={[0, 0, 0, 10]}
+              as="nav"
+              flexWrap="nowrap"
+              flexDirection={['row', 'row', 'row', 'column']}
+              alignItems="flex-start"
+            >
+              {data.navigation.nodes.map((item) => (
+                <PartialNavLink to={item.link} key={item.name}>
+                  {item.name}
+                </PartialNavLink>
+              ))}
+            </Nav>
+          </Flex>
+        </SideBarInner>
+        <Main>{children}</Main>
+      </Wrapper>
+    </ThemeProvider>
   );
 };
 

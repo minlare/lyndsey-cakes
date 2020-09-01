@@ -19,26 +19,8 @@ exports.createPages = async ({ graphql, actions }) => {
           filter: { frontmatter: { templateKey: { eq: "cake-page" } } }
         ) {
           nodes {
-            html
             frontmatter {
               slug
-              title
-              desc
-              images
-              price
-              featuredimage {
-                childImageSharp {
-                  fluid(quality: 95, maxWidth: 1200) {
-                    base64
-                    aspectRatio
-                    src
-                    srcSet
-                    srcWebp
-                    srcSetWebp
-                    sizes
-                  }
-                }
-              }
             }
           }
         }
@@ -51,8 +33,7 @@ exports.createPages = async ({ graphql, actions }) => {
       path: node.frontmatter.slug,
       component: cakeTemplate,
       context: {
-        html: node.html,
-        ...node.frontmatter
+        slug: node.frontmatter.slug
       }
     });
   });

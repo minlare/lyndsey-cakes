@@ -1,6 +1,7 @@
 import React from 'react';
+import { graphql } from 'gatsby';
 import Img from 'gatsby-image';
-import { transparentize, readableColor } from 'polished';
+import { transparentize } from 'polished';
 import styled from 'styled-components';
 import { config, useSpring, animated } from 'react-spring';
 import Layout from '../components/layout';
@@ -40,13 +41,16 @@ const PButton = styled(Button)<{ color: string }>`
 type PageProps = {
   data: {
     cake: {
-      title: string;
-      desc: string;
-      slug: string;
-      featuredimage: {
-        childImageSharp: {
-          resize: {
-            src: string;
+      html: string;
+      frontmatter: {
+        title: string;
+        desc: string;
+        slug: string;
+        featuredimage: {
+          childImageSharp: {
+            fluid: {
+              src: string;
+            };
           };
         };
       };
@@ -71,10 +75,7 @@ type PageProps = {
   };
 };
 
-const Cake: React.FunctionComponent<PageProps> = ({ pageContext }) => {
-  console.log(pageContext);
-  const cake = pageContext;
-
+const Cake: React.FunctionComponent<PageProps> = ({ data: { cake } }) => {
   const titleAnimation = useSpring({
     config: config.slow,
     delay: 300,
@@ -97,18 +98,20 @@ const Cake: React.FunctionComponent<PageProps> = ({ pageContext }) => {
   return (
     <Layout>
       <SEO
-        pathname={cake.slug}
-        title={`${cake.title} | Cakes by Lyndsey Rose`}
-        desc={cake.desc}
-        banner={cake.featuredimage.childImageSharp.fluid.src}
+        pathname={cake.frontmatter.slug}
+        title={`${cake.frontmatter.title} | Cakes by Lyndsey Rose`}
+        desc={cake.frontmatter.desc}
+        banner={cake.frontmatter.featuredimage.childImageSharp.fluid.src}
         individual
       />
       <PBox py={10} px={[6, 6, 8, 10]}>
-        <animated.h1 style={titleAnimation}>{cake.title}</animated.h1>
+        <animated.h1 style={titleAnimation}>
+          {cake.frontmatter.title}
+        </animated.h1>
         <Img
-          alt={cake.title}
-          key={cake.featuredimage.childImageSharp.fluid.src}
-          fluid={cake.featuredimage.childImageSharp.fluid}
+          alt={cake.frontmatter.title}
+          key={cake.frontmatter.featuredimage.childImageSharp.fluid.src}
+          fluid={cake.frontmatter.featuredimage.childImageSharp.fluid}
         />
         <Description style={descAnimation}>
           <div dangerouslySetInnerHTML={{ __html: cake.html }} />
@@ -127,7 +130,7 @@ const Cake: React.FunctionComponent<PageProps> = ({ pageContext }) => {
       </Content> */}
       <PBox style={{ textAlign: 'center' }} py={10} px={[6, 6, 8, 10]}>
         <h2>Want your own cake?</h2>
-        <PButton color={cake.color} py={4} px={8}>
+        <PButton py={4} px={8}>
           Contact Me
         </PButton>
       </PBox>
@@ -137,27 +140,27 @@ const Cake: React.FunctionComponent<PageProps> = ({ pageContext }) => {
 
 export default Cake;
 
-// export const query = graphql`
-//   query CakeTemplate($slug: String!) {
-//     cake: markdownRemark(frontmatter: { slug: { eq: $slug } }) {
-//       id
-//       frontmatter {
-//         desc
-//         featuredimage {
-//           childImageSharp {
-//             fluid(quality: 95, maxWidth: 1200) {
-//               ...GatsbyImageSharpFluid_withWebp
-//             }
-//           }
-//         }
-//         images
-//         price
-//         slug
-//         title
-//       }
-//     }
-//   }
-// `;
+export const query = graphql`
+  query CakeTemplate($slug: String!) {
+    cake: markdownRemark(frontmatter: { slug: { eq: $slug } }) {
+      html
+      frontmatter {
+        desc
+        featuredimage {
+          childImageSharp {
+            fluid(quality: 95, maxWidth: 1200) {
+              ...GatsbyImageSharpFluid_withWebp
+            }
+          }
+        }
+        images
+        price
+        slug
+        title
+      }
+    }
+  }
+`;
 
 // export const query = graphql`
 //   query CakeTemplate($slug: String!, $images: String!) {
