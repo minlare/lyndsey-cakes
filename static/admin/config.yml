@@ -28,6 +28,19 @@ collections:
           - { label: 'Title', name: 'title', widget: 'string' }
           - { label: 'Body', name: 'body', widget: 'markdown' }
 
+      - file: 'content/pages/services.yml'
+        label: 'Services'
+        name: 'services'
+        fields:
+          - {
+              label: 'Template Key',
+              name: 'templateKey',
+              widget: 'hidden',
+              default: 'services-page',
+            }
+          - { label: 'Title', name: 'title', widget: 'string' }
+          - { label: 'Body', name: 'body', widget: 'markdown' }
+
   - name: 'cakes'
     label: 'Cakes'
     folder: 'content/cakes'
@@ -49,3 +62,17 @@ collections:
         name: images
         widget: list
         field: { label: Image, name: image, widget: image }
+
+  - name: 'testimonials'
+    label: 'Testimonials'
+    folder: 'content/testimonials'
+    create: true
+    fields:
+      - {
+          label: 'Template Key',
+          name: 'templateKey',
+          widget: 'hidden',
+          default: 'testimonial',
+        }
+      - { label: 'Name', name: 'name', widget: 'string' }
+      - { label: 'Quote', name: 'quote', widget: 'string' }

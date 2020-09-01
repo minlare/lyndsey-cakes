@@ -12,9 +12,11 @@ type PageProps = {
   data: {
     cakes: {
       nodes: {
-        title: string;
-        slug: string;
-        featuredimage: ChildImageSharp;
+        frontmatter: {
+          title: string;
+          slug: string;
+          featuredimage: ChildImageSharp;
+        };
       }[];
     };
   };
@@ -42,14 +44,14 @@ const Cakes: React.FunctionComponent<PageProps> = ({ data: { cakes } }) => {
     <Layout>
       <SEO title="Cakes | Jodie" />
       <Area style={pageAnimation}>
-        {cakes.nodes.map((cake) => (
+        {cakes.nodes.map(({ frontmatter: { slug, title, featuredimage } }) => (
           <GridItem
-            key={cake.slug}
-            to={cake.slug}
-            aria-label={`View cake "${cake.title}"`}
+            key={slug}
+            to={`/${slug}`}
+            aria-label={`View cake "${title}"`}
           >
-            <Img fluid={cake.featuredimage.childImageSharp.fluid} />
-            <span>{cake.title}</span>
+            <Img fluid={featuredimage.childImageSharp.fluid} />
+            <span>{title}</span>
           </GridItem>
         ))}
       </Area>
@@ -59,20 +61,25 @@ const Cakes: React.FunctionComponent<PageProps> = ({ data: { cakes } }) => {
 
 export default Cakes;
 
-// export const query = graphql`
-//   query Cakes {
-//     cakes: allCakesYaml {
-//       nodes {
-//         title
-//         slug
-//         featuredimage {
-//           childImageSharp {
-//             fluid(quality: 95, maxWidth: 1200) {
-//               ...GatsbyImageSharpFluid_withWebp
-//             }
-//           }
-//         }
-//       }
-//     }
-//   }
-// `;
+export const query = graphql`
+  query Cakes {
+    cakes: allMarkdownRemark(
+      filter: { frontmatter: { templateKey: { eq: "cake-page" } } }
+    ) {
+      nodes {
+        frontmatter {
+          slug
+          title
+          price
+          featuredimage {
+            childImageSharp {
+              fluid(quality: 95, maxWidth: 1200) {
+                ...GatsbyImageSharpFluid_withWebp
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
