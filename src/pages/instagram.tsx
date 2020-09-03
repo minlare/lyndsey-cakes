@@ -135,15 +135,13 @@ const Instagram: React.FunctionComponent<Props> = ({
   });
 
   return (
-    <Layout color="#3F4F67">
+    <Layout>
       <SEO title="Instagram | Jodie" />
       <Grid style={pageAnimation}>
         {trail.map((style, index) => {
-          // Grab everything before the first hashtag (because I write my captions like that)
           const post = instagram[index];
-          const title = post.caption ? post.caption.split('#')[0] : '';
           const date = new Date(post.timestamp * 1000).toLocaleDateString(
-            'de-DE'
+            'en-GB'
           );
 
           return (
@@ -159,7 +157,7 @@ const Instagram: React.FunctionComponent<Props> = ({
                 flexWrap="nowrap"
                 justifyContent="space-between"
               >
-                <Title>{title}</Title>
+                <Title>{post.caption}</Title>
                 <Bottom
                   flexDirection="row"
                   flexWrap="nowrap"
@@ -181,22 +179,22 @@ const Instagram: React.FunctionComponent<Props> = ({
 
 export default Instagram;
 
-// export const query = graphql`
-//   query Instagram {
-//     instagram: allInstaNode(sort: { fields: timestamp, order: DESC }, limit: 30) {
-//       nodes {
-//         caption
-//         id
-//         timestamp
-//         likes
-//         localFile {
-//           childImageSharp {
-//             fluid(quality: 100, maxWidth: 600, maxHeight: 600) {
-//               ...GatsbyImageSharpFluid_withWebp
-//             }
-//           }
-//         }
-//       }
-//     }
-//   }
-// `
+export const query = graphql`
+  query Instagram {
+    instagram: allInstaNode(sort: { fields: timestamp, order: DESC }) {
+      nodes {
+        caption
+        id
+        timestamp
+        likes
+        localFile {
+          childImageSharp {
+            fluid(quality: 100, maxWidth: 600, maxHeight: 600) {
+              ...GatsbyImageSharpFluid_withWebp
+            }
+          }
+        }
+      }
+    }
+  }
+`;
