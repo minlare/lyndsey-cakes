@@ -6,7 +6,5 @@
   link: '/about'
 - name: 'Services'
   link: '/services'
-- name: 'Gallery'
-  link: '/gallery'
 - name: 'Testimonials'
   link: '/testimonials'

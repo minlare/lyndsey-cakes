@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import { graphql, Link, useStaticQuery } from 'gatsby';
 import { readableColor } from 'polished';
@@ -67,7 +67,99 @@ const SideBarInner = styled(Box)<{ bg: string }>`
   }
 `;
 
-const Nav = styled(Flex)<{ color: string }>`
+const NavButton = styled.button<{ open: boolean }>`
+  width: 34px;
+  height: 30px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  appearance: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  cursor: pointer;
+
+  &:focus {
+    outline: 1px dotted white;
+    outline-offset: 10px;
+  }
+
+  &::before,
+  &::after {
+    content: '';
+    display: block;
+    height: 2px;
+    border-radius: 1px;
+    background-color: black;
+    position: absolute;
+    left: 50%;
+    width: ${(props) => (props.open ? '0px' : '100%')};
+    transform: translateX(-50%);
+    transition: opacity 0.2s, width 0.2s;
+    opacity: ${(props) => (props.open ? '0' : '1')};
+  }
+
+  &::before {
+    top: 0;
+  }
+
+  &::after {
+    bottom: 0;
+  }
+
+  span {
+    position: relative;
+    height: 2px;
+    width: 100%;
+    display: block;
+
+    &::before,
+    &::after {
+      content: '';
+      display: block;
+      height: 2px;
+      border-radius: 1px;
+      background-color: black;
+      position: absolute;
+      width: 100%;
+      transition: transform 0.2s;
+    }
+
+    &::before {
+      transform: ${(props) => (props.open ? 'rotate(45deg);' : 'none')}
+    }
+
+    &::after {
+      transform: ${(props) => (props.open ? 'rotate(-45deg);' : 'none')}
+    }
+  }
+
+  @media (min-width: calc(${(props) => props.theme.breakpoints[2]} + 1px)) {
+    display: none;
+  }
+`;
+
+const Nav = styled(Flex)<{ color: string; visible: boolean }>`
+  @media (max-width: ${(props) => props.theme.breakpoints[2]}) {
+    display: ${(props) => (props.visible ? 'flex' : 'none')};
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: blue;
+    padding: 20px;
+    z-index: 11;
+  }
+
+  @media (max-width: ${(props) => props.theme.breakpoints[1]}) {
+    padding: 20px 10px;
+  }
+
+  @media (max-width: ${(props) => props.theme.breakpoints[0]}) {
+    padding: 20px 15px;
+  }
+
   a {
     text-decoration: none;
     color: ${(props) => readableColor(`${props.color}`)};
@@ -120,6 +212,8 @@ interface QueryResult {
 const Layout = ({ children, color }: LayoutProps) => {
   const data: QueryResult = useStaticQuery(query);
 
+  const [navOpen, setNavOpen] = useState(false);
+
   return (
     <ThemeProvider theme={theme}>
       <Wrapper>
@@ -135,12 +229,16 @@ const Layout = ({ children, color }: LayoutProps) => {
                 <Logo />
               </Link>
             </Box>
+            <NavButton open={navOpen} onClick={() => setNavOpen(!navOpen)}>
+              <span></span>
+            </NavButton>
             <Nav
+              visible={navOpen}
               color={color}
               mt={[0, 0, 0, 10]}
               as="nav"
               flexWrap="nowrap"
-              flexDirection={['row', 'row', 'row', 'column']}
+              flexDirection="column"
               alignItems="flex-start"
             >
               {data.navigation.nodes.map((item) => (
