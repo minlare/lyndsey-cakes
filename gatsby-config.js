@@ -27,6 +27,14 @@ module.exports = {
     'gatsby-plugin-styled-components',
     'gatsby-plugin-typescript',
     'gatsby-transformer-yaml',
+    // Add static assets before markdown files
+    {
+      resolve: 'gatsby-source-filesystem',
+      options: {
+        name: 'images',
+        path: `${__dirname}/static/img`
+      }
+    },
     {
       resolve: 'gatsby-source-filesystem',
       options: {
@@ -44,7 +52,7 @@ module.exports = {
     {
       resolve: 'gatsby-source-filesystem',
       options: {
-        name: 'tests',
+        name: 'pages',
         path: `${__dirname}/content/pages`
       }
     },
@@ -53,13 +61,6 @@ module.exports = {
       options: {
         name: 'config',
         path: `${__dirname}/config`
-      }
-    },
-    {
-      resolve: 'gatsby-source-filesystem',
-      options: {
-        name: 'images',
-        path: `${__dirname}/static/img`
       }
     },
     {
@@ -83,10 +84,10 @@ module.exports = {
       options: {
         plugins: [
           {
-            resolve: 'gatsby-remark-relative-images',
-            options: {
-              name: 'images'
-            }
+            resolve: 'gatsby-remark-relative-images'
+            // options: {
+            //   name: 'images'
+            // }
           },
           {
             resolve: 'gatsby-remark-images',
@@ -96,13 +97,13 @@ module.exports = {
               // base for generating different widths of each image.
               maxWidth: 2048
             }
-          },
-          {
-            resolve: 'gatsby-remark-copy-linked-files',
-            options: {
-              destinationDir: 'static'
-            }
           }
+          // {
+          //   resolve: 'gatsby-remark-copy-linked-files',
+          //   options: {
+          //     destinationDir: 'static'
+          //   }
+          // }
         ]
       }
     },

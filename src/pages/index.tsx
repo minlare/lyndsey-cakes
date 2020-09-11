@@ -36,7 +36,7 @@ type PageProps = {
 const Area = styled(animated.div)`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: 35vw 40vw 25vw;
+  grid-template-rows: 25vw 25vw 15vw;
   grid-template-areas:
     'first-cake about-us about-us'
     'three-cakes three-cakes three-cakes'

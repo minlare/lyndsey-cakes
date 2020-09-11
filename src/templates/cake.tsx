@@ -56,22 +56,19 @@ type PageProps = {
       };
     };
     images: {
-      nodes: {
-        name: string;
-        childImageSharp: {
-          fluid: {
-            aspectRatio: number;
-            src: string;
-            srcSet: string;
-            sizes: string;
-            base64: string;
-            tracedSVG: string;
-            srcWebp: string;
-            srcSetWebp: string;
-          };
+      childImageSharp: {
+        fluid: {
+          aspectRatio: number;
+          src: string;
+          srcSet: string;
+          sizes: string;
+          base64: string;
+          tracedSVG: string;
+          srcWebp: string;
+          srcSetWebp: string;
         };
-      }[];
-    };
+      };
+    }[];
   };
 };
 
@@ -95,6 +92,8 @@ const Cake: React.FunctionComponent<PageProps> = ({ data: { cake } }) => {
     to: { opacity: 1 }
   });
 
+  console.log(cake);
+
   return (
     <Layout>
       <SEO
@@ -117,17 +116,17 @@ const Cake: React.FunctionComponent<PageProps> = ({ data: { cake } }) => {
           <div dangerouslySetInnerHTML={{ __html: cake.html }} />
         </Description>
       </PBox>
-      {/* <Content bg={cake.color} py={10}>
+      <Content bg="#6e6e6e" py={10}>
         <PBox style={imagesAnimation} px={[6, 6, 8, 10]}>
-          {images.nodes.map((image) => (
+          {cake.frontmatter.images.map((image) => (
             <Img
               alt={image.name}
-              key={image.childImageSharp.original.src}
-              fluid={image.childImageSharp.original}
+              key={image.childImageSharp.fluid.src}
+              fluid={image.childImageSharp.fluid}
             />
           ))}
         </PBox>
-      </Content> */}
+      </Content>
       <PBox style={{ textAlign: 'center' }} py={10} px={[6, 6, 8, 10]}>
         <h2>Want your own cake?</h2>
         <PButton py={4} px={8}>
@@ -153,7 +152,13 @@ export const query = graphql`
             }
           }
         }
-        images
+        images {
+          childImageSharp {
+            fluid(quality: 95, maxWidth: 1200) {
+              ...GatsbyImageSharpFluid_withWebp
+            }
+          }
+        }
         price
         slug
         title
@@ -161,41 +166,3 @@ export const query = graphql`
     }
   }
 `;
-
-// export const query = graphql`
-//   query CakeTemplate($slug: String!, $images: String!) {
-//     cake: cakesYaml(slug: { eq: $slug }) {
-//       title_detail
-//       color
-//       category
-//       desc
-//       slug
-//       parent {
-//         ... on File {
-//           modifiedTime
-//           birthTime
-//         }
-//       }
-//       featuredimage {
-//         childImageSharp {
-//           resize(width: 1200, height: 675, quality: 80) {
-//             src
-//           }
-//         }
-//       }
-//     }
-//     images: allFile(
-//       filter: { relativePath: { regex: $images } }
-//       sort: { fields: name, order: ASC }
-//     ) {
-//       nodes {
-//         name
-//         childImageSharp {
-//           fluid(quality: 95, maxWidth: 1200) {
-//             ...GatsbyImageSharpFluid_withWebp
-//           }
-//         }
-//       }
-//     }
-//   }
-// `;

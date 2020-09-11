@@ -24,12 +24,17 @@ type PageProps = {
 
 const Area = styled(animated.div)`
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-auto-rows: 50vw;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-auto-rows: 25vw;
 
-  @media (max-width: ${(props) => props.theme.breakpoints[2]}) {
+  @media (max-width: ${(props) => props.theme.breakpoints[1]}) {
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: 50vw;
+  }
+
+  @media (max-width: ${(props) => props.theme.breakpoints[0]}) {
     grid-template-columns: 1fr;
-    grid-auto-rows: 60vw;
+    grid-auto-rows: 50vw;
   }
 `;
 

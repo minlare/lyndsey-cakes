@@ -4,6 +4,7 @@ import { config, useSpring } from 'react-spring';
 import Layout from '../components/layout';
 import { AnimatedBox } from '../elements';
 import SEO from '../components/SEO';
+import './testimonials.css';
 
 type PageProps = {
   data: {
@@ -26,8 +27,6 @@ const Testimonials: React.FunctionComponent<PageProps> = ({
     from: { opacity: 0 },
     to: { opacity: 1 }
   });
-
-  console.log(testimonials);
 
   return (
     <Layout>

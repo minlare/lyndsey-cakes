@@ -147,9 +147,10 @@ const Nav = styled(Flex)<{ color: string; visible: boolean }>`
     top: 100%;
     left: 0;
     width: 100%;
-    background: blue;
+    background: white;
     padding: 20px;
     z-index: 11;
+    box-sizing: border-box;
   }
 
   @media (max-width: ${(props) => props.theme.breakpoints[1]}) {
