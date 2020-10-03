@@ -13,15 +13,36 @@ const PBox = styled(AnimatedBox)`
   margin: 0 auto;
 `;
 
+const Hero = styled(Box)<{ bg: string }>`
+  .gatsby-image-wrapper {
+    float: right;
+    margin-left: 10%;
+    margin-bottom: 20px;
+    width: 45%;
+
+    @media (max-width: ${(props) => props.theme.breakpoints[1]}) {
+      float: none;
+      margin-left: 0;
+      width: auto;
+    }
+  }
+`;
+
 const Content = styled(Box)<{ bg: string }>`
   background-color: ${(props) => transparentize(0.9, props.bg)};
 
-  .gatsby-image-wrapper:not(:last-child) {
-    margin-bottom: ${(props) => props.theme.space[10]};
+  .image-link {
+    flex-grow: 1;
+    flex-shrink: 0;
+    flex-basis: 22%;
+    max-width: 22%;
+    margin-bottom: 10px;
+    margin-right: 3%;
+  }
 
-    @media (max-width: ${(props) => props.theme.breakpoints[3]}) {
-      margin-bottom: ${(props) => props.theme.space[8]};
-    }
+  > * {
+    display: flex;
+    flex-wrap: wrap;
   }
 `;
 
@@ -53,22 +74,23 @@ type PageProps = {
             };
           };
         };
+        images: {
+          name: string;
+          childImageSharp: {
+            fluid: {
+              aspectRatio: number;
+              src: string;
+              srcSet: string;
+              sizes: string;
+              base64: string;
+              tracedSVG: string;
+              srcWebp: string;
+              srcSetWebp: string;
+            };
+          };
+        }[];
       };
     };
-    images: {
-      childImageSharp: {
-        fluid: {
-          aspectRatio: number;
-          src: string;
-          srcSet: string;
-          sizes: string;
-          base64: string;
-          tracedSVG: string;
-          srcWebp: string;
-          srcSetWebp: string;
-        };
-      };
-    }[];
   };
 };
 
@@ -92,8 +114,6 @@ const Cake: React.FunctionComponent<PageProps> = ({ data: { cake } }) => {
     to: { opacity: 1 }
   });
 
-  console.log(cake);
-
   return (
     <Layout>
       <SEO
@@ -103,30 +123,36 @@ const Cake: React.FunctionComponent<PageProps> = ({ data: { cake } }) => {
         banner={cake.frontmatter.featuredimage.childImageSharp.fluid.src}
         individual
       />
-      <PBox py={10} px={[6, 6, 8, 10]}>
-        <animated.h1 style={titleAnimation}>
-          {cake.frontmatter.title}
-        </animated.h1>
-        <Img
-          alt={cake.frontmatter.title}
-          key={cake.frontmatter.featuredimage.childImageSharp.fluid.src}
-          fluid={cake.frontmatter.featuredimage.childImageSharp.fluid}
-        />
-        <Description style={descAnimation}>
-          <div dangerouslySetInnerHTML={{ __html: cake.html }} />
-        </Description>
-      </PBox>
-      <Content bg="#6e6e6e" py={10}>
-        <PBox style={imagesAnimation} px={[6, 6, 8, 10]}>
-          {cake.frontmatter.images.map((image) => (
-            <Img
-              alt={image.name}
-              key={image.childImageSharp.fluid.src}
-              fluid={image.childImageSharp.fluid}
-            />
-          ))}
+      <Hero>
+        <PBox py={10} px={[6, 6, 8, 10]}>
+          <animated.h1 style={titleAnimation}>
+            {cake.frontmatter.title}
+          </animated.h1>
+          <Img
+            alt={cake.frontmatter.title}
+            key={cake.frontmatter.featuredimage.childImageSharp.fluid.src}
+            fluid={cake.frontmatter.featuredimage.childImageSharp.fluid}
+          />
+          <Description style={descAnimation}>
+            <div dangerouslySetInnerHTML={{ __html: cake.html }} />
+          </Description>
         </PBox>
-      </Content>
+      </Hero>
+      {cake.frontmatter.images && (
+        <Content bg="#6e6e6e" py={10}>
+          <PBox style={imagesAnimation} px={[6, 6, 8, 10]}>
+            {cake.frontmatter.images.map((image) => (
+              <a className="image-link" href={image.childImageSharp.fluid.src}>
+                <Img
+                  alt={image.name}
+                  key={image.childImageSharp.fluid.src}
+                  fluid={image.childImageSharp.fluid}
+                />
+              </a>
+            ))}
+          </PBox>
+        </Content>
+      )}
       <PBox style={{ textAlign: 'center' }} py={10} px={[6, 6, 8, 10]}>
         <h2>Want your own cake?</h2>
         <PButton py={4} px={8}>
