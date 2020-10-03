@@ -38,7 +38,7 @@ const Title = styled.div`
   color: white;
   font-weight: 700;
   font-size: ${(props) => props.theme.fontSizes[1]};
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
   transform: translateY(-45px);
   transition: all 0.4s ease 0s;
   opacity: 0;
