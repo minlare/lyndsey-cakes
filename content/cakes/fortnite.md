@@ -1,5 +1,6 @@
 ---
 templateKey: cake-page
+category: cakes
 slug: fortnite
 title: Fortnite
 featuredimage: /img/fortnite-3.jpg
