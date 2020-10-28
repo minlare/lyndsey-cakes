@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
-import { graphql, Link, useStaticQuery } from 'gatsby';
+import { Link } from 'gatsby';
 import { readableColor } from 'polished';
 import 'typeface-work-sans';
 import { Box, Flex } from '../elements';
@@ -167,6 +167,22 @@ const Nav = styled(Flex)<{ color: string; visible: boolean }>`
     font-size: ${(props) => props.theme.fontSizes[0]};
   }
 
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    margin-bottom: 6px;
+  }
+
+  ul ul {
+    margin-left: 10px;
+    margin-top: 6px;
+    font-size: 90%;
+  }
+
   a {
     text-decoration: none;
     color: ${(props) => props.theme.colors.primary};
@@ -215,18 +231,7 @@ const defaultProps = {
   color: '#BFD9D7'
 };
 
-interface QueryResult {
-  navigation: {
-    nodes: {
-      name: string;
-      link: string;
-    }[];
-  };
-}
-
 const Layout = ({ children, color }: LayoutProps) => {
-  const data: QueryResult = useStaticQuery(query);
-
   const [navOpen, setNavOpen] = useState(false);
 
   return (
@@ -256,11 +261,31 @@ const Layout = ({ children, color }: LayoutProps) => {
               flexDirection="column"
               alignItems="flex-start"
             >
-              {data.navigation.nodes.map((item) => (
-                <PartialNavLink to={item.link} key={item.name}>
-                  {item.name}
-                </PartialNavLink>
-              ))}
+              <ul>
+                <li>
+                  <PartialNavLink to="/about">About</PartialNavLink>
+                </li>
+                <li>
+                  <PartialNavLink to="/cakes">Cakes</PartialNavLink>
+                  <ul>
+                    <li>
+                      <PartialNavLink to="/cakesickles">Cakesickles</PartialNavLink>
+                    </li>
+                    <li>
+                      <PartialNavLink to="/cupcakes">Cupcakes</PartialNavLink>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <PartialNavLink to="/instagram">Instagram</PartialNavLink>
+                </li>
+                <li>
+                  <PartialNavLink to="/prices">Prices</PartialNavLink>
+                </li>
+                <li>
+                  <PartialNavLink to="/testimonials">Testimonials</PartialNavLink>
+                </li>
+              </ul>
               <SideBarContactDetails>
                 <p>
                   <span>Contact me for a quote</span>
@@ -283,14 +308,3 @@ const Layout = ({ children, color }: LayoutProps) => {
 export default Layout;
 
 Layout.defaultProps = defaultProps;
-
-const query = graphql`
-  query Layout {
-    navigation: allNavigationYaml {
-      nodes {
-        name
-        link
-      }
-    }
-  }
-`;

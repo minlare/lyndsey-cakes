@@ -52,6 +52,13 @@ collections:
           widget: 'hidden',
           default: 'cake-page',
         }
+      - {
+          label: 'Category',
+          name: 'category',
+          widget: 'select',
+          options: ['cakes', 'cakesickles', 'cupcakes'],
+          default: 'cakes',
+        }
       - { label: 'URL', name: 'slug', widget: 'string' }
       - { label: 'Title', name: 'title', widget: 'string' }
       - { label: 'Featured Image', name: 'featuredimage', widget: image }

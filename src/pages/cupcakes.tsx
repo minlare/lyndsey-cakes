@@ -3,9 +3,9 @@ import { graphql } from 'gatsby';
 export { default } from '../components/templates/cakes';
 
 export const query = graphql`
-  query Cakes {
+  query Cupcakes {
     cakes: allMarkdownRemark(
-      filter: { frontmatter: { templateKey: { eq: "cake-page" }, category: { eq: "cakes" } } }
+      filter: { frontmatter: { templateKey: { eq: "cake-page" }, category: { eq: "cupcakes" } } }
     ) {
       nodes {
         frontmatter {
