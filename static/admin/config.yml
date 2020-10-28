@@ -28,15 +28,15 @@ collections:
           - { label: 'Title', name: 'title', widget: 'string' }
           - { label: 'Body', name: 'body', widget: 'markdown' }
 
-      - file: 'content/pages/services.yml'
-        label: 'Services'
-        name: 'services'
+      - file: 'content/pages/prices.yml'
+        label: 'Prices'
+        name: 'prices'
         fields:
           - {
               label: 'Template Key',
               name: 'templateKey',
               widget: 'hidden',
-              default: 'services-page',
+              default: 'prices-page',
             }
           - { label: 'Title', name: 'title', widget: 'string' }
           - { label: 'Body', name: 'body', widget: 'markdown' }

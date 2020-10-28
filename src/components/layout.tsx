@@ -50,8 +50,8 @@ const SideBarInner = styled(Box)<{ bg: string }>`
   flex-direction: column;
   flex-wrap: nowrap;
   justify-content: space-between;
-
   background: ${(props) => props.bg};
+  overflow: auto;
 
   @media (max-width: ${(props) => props.theme.breakpoints[4]}) {
     width: ${(props) => props.theme.sidebarWidth.normal};
@@ -60,6 +60,7 @@ const SideBarInner = styled(Box)<{ bg: string }>`
   @media (max-width: ${(props) => props.theme.breakpoints[2]}) {
     position: relative;
     width: 100%;
+    overflow: visible;
   }
 
   svg {
@@ -151,41 +152,54 @@ const Nav = styled(Flex)<{ color: string; visible: boolean }>`
     padding: 20px;
     z-index: 11;
     box-sizing: border-box;
+    font-size: ${(props) => props.theme.fontSizes[4]};
+  }
+
+  @media (max-width: ${(props) => props.theme.breakpoints[2]}) {
+    font-size: ${(props) => props.theme.fontSizes[2]};
   }
 
   @media (max-width: ${(props) => props.theme.breakpoints[1]}) {
-    padding: 20px 10px;
+    font-size: ${(props) => props.theme.fontSizes[1]};
   }
 
   @media (max-width: ${(props) => props.theme.breakpoints[0]}) {
-    padding: 20px 15px;
+    font-size: ${(props) => props.theme.fontSizes[0]};
   }
 
   a {
     text-decoration: none;
-    color: ${(props) => readableColor(`${props.color}`)};
-    font-size: ${(props) => props.theme.fontSizes[3]};
+    color: ${(props) => props.theme.colors.primary};
     line-height: 1.5;
     &:hover,
     &:focus,
     &.navlink-active {
-      color: ${(props) => props.theme.colors.primary};
+      color: ${(props) => readableColor(`${props.color}`)};
     }
+  }
+`;
 
-    @media (max-width: ${(props) => props.theme.breakpoints[2]}) {
-      font-size: ${(props) => props.theme.fontSizes[2]};
-      margin-left: ${(props) => props.theme.space[4]};
-    }
+const SideBarContactDetails = styled(Box)<{ bg: string }>`
+  color: ${(props) => props.theme.colors.primary};
 
-    @media (max-width: ${(props) => props.theme.breakpoints[1]}) {
-      font-size: ${(props) => props.theme.fontSizes[1]};
-      margin-left: ${(props) => props.theme.space[3]};
-    }
+  span {
+    display: block;
+    margin-bottom: 0.5em;
+    padding-bottom: 0.5em;
+    font-size: 12px;
+  }
 
-    @media (max-width: ${(props) => props.theme.breakpoints[0]}) {
-      font-size: ${(props) => props.theme.fontSizes[0]};
-      margin-left: ${(props) => props.theme.space[2]};
-    }
+  span::after {
+    content: '';
+    display: block;
+    width: 50px;
+    border-bottom: 1px solid ${(props) => props.theme.colors.primary};
+  }
+
+  p {
+    margin-bottom: 0;
+    margin-top: 2em;
+    line-height: 1.5;
   }
 `;
 
@@ -247,6 +261,16 @@ const Layout = ({ children, color }: LayoutProps) => {
                   {item.name}
                 </PartialNavLink>
               ))}
+              <SideBarContactDetails>
+                <p>
+                  <span>Contact me for a quote</span>
+                  <a href="tel:07969 444047">07969 444047</a>
+                  <br />
+                  <a href="mailto:roselyndsey15@yahoo.co.uk">
+                    roselyndsey15@yahoo.co.uk
+                  </a>
+                </p>
+              </SideBarContactDetails>
             </Nav>
           </Flex>
         </SideBarInner>
