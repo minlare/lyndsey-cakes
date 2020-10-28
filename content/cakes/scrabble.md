@@ -1,5 +1,6 @@
 ---
 templateKey: cake-page
+category: cupcakes
 slug: scrabble
 title: Scrabble
 featuredimage: /img/scrabble-2.jpg

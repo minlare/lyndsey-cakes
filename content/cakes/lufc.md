@@ -1,5 +1,6 @@
 ---
 templateKey: cake-page
+category: cakesickles
 slug: lufc
 title: LUFC
 featuredimage: /img/lufc.jpg

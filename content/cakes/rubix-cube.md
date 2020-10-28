@@ -1,5 +1,6 @@
 ---
 templateKey: cake-page
+category: cakesickles
 slug: rubix-cube
 title: Rubix Cube
 featuredimage: /img/rubix.jpg
